@@ -1,0 +1,36 @@
+#include<iostream>
+#include<algorithm>
+#include<cstdio>
+
+using namespace std;
+
+typedef struct
+{
+	int s, c, l,num;
+}s;
+
+bool cmp(s a, s b)
+{
+	if (a.s != b.s)
+		return a.s > b.s;
+	if (a.c != b.c)
+		return a.c < b.c;
+	return a.l < b.l;
+}
+
+int main()
+{
+	int N;
+	s people[3];
+	scanf("%d", &N);
+	for (int i = 0; i < N; i++)
+	{
+		scanf("%d %d %d", &people[i].s,&people[i].c,&people[i].l);
+		people[i].num = i + 1;
+	}
+
+	sort(people, people + N, cmp);
+
+	printf("%d\n", people[0].num);
+	
+}
