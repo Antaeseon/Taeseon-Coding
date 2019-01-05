@@ -24,7 +24,7 @@ void KMP(string cmpString, string inpString,int num) {
 	int inpStringSize = inpString.size();
 	int cnt = 0;
 	int j = 0;
-	for (int i = 1; i < inpStringSize; i++) {
+	for (int i = 0; i < inpStringSize; i++) {
 		while (j > 0 && cmpString[j] != inpString[i]) {
 			j = fail_table[j - 1];
 		}
