@@ -10,10 +10,7 @@ int ladder_search(int target) {
 	int x = target;
 
 	while (y != 1) {
-		if (graph[y - 1][x] == 1) {
-			y--;
-		}
-		else if(graph[y][x-1]==1){
+		if(graph[y][x-1]==1){
 			while (graph[y][x - 1])
 				x--;
 			y--;
@@ -23,6 +20,10 @@ int ladder_search(int target) {
 				x++;
 			y--;
 		}
+		else{
+			y--;
+		}
+
 	}
 
 	return x;
