@@ -1,58 +1,40 @@
 #include<iostream>
 
+
 using namespace std;
 
+int paper[2200][2200];
+int result[3];
 
-
-int map[2200][2200];
-int cnt[3];
-
-void paper(int h, int w,int size) {
-
-	if (size == 1) {
-		if (map[h][w] == -1)
-			cnt[0]++;
-		else if (map[h][w] == 0)
-			cnt[1]++;
-		else
-			cnt[2]++;
-		return;
-	}
-
-	for (int i = h; i < h + size; i++) {
-		for (int j = w; j < w + size; j++) {
-			if (map[h][w] != map[i][j]) {
-				for (int a = 0; a < 3; a++) {
-					for (int b = 0; b < 3; b++) {
-						paper(h + (size / 3)*a, w + (size / 3)*b, size / 3);
-					}
-				}
+void paperNum(int y, int x, int num) {
+	int nextNum = num / 3;
+	for (int i = y; i < y+num; i++) {
+		for (int j = x; j < x+num; j++) {
+			if (paper[y][x] != paper[i][j]) {
+				for (int k = 0; k < 3; k++) 
+					for(int l=0;l<3;l++) paperNum(y + k * nextNum, x + l * nextNum, nextNum);
 				return;
 			}
+
 		}
 	}
-
-	if (map[h][w] == -1)
-		cnt[0]++;
-	else if (map[h][w] == 0)
-		cnt[1]++;
-	else if (map[h][w] == 1)
-		cnt[2]++;
-	return;
+	result[paper[y][x]+1]++;
 }
 
+
 int main() {
+	std::ios::sync_with_stdio(false), cin.tie(0);
 	int n;
-	scanf("%d", &n);
-	for (int i = 1; i <= n; i++) {
-		for (int j = 1; j <= n; j++) {
-			scanf("%d", &map[i][j]);
-		}
+	cin >> n;
+
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < n; j++)
+			cin >> paper[i][j];
 	}
 
-	paper(1, 1, n);
+	paperNum(0, 0, n);
 
 	for (int i = 0; i < 3; i++) {
-		printf("%d\n", cnt[i]);
+		cout << result[i] << "\n";
 	}
 }
