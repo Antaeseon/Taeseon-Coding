@@ -6,8 +6,8 @@ public class p10818 {
 
 	public static void main(String[] args) {
 		int min,max;
-		max = -10^9;
-		min = 10^9;
+		max = -1000000000;
+		min = 1000000000;
 		
 		int n;
 		int input;
