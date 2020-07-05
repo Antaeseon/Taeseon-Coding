@@ -30,3 +30,8 @@
 *.exe
 *.out
 *.app
+
+*번
+
+*.dSYM
+.vscode
