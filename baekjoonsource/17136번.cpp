@@ -1,66 +1,101 @@
-#include<iostream>
-#include<vector>
-#include<queue>
+#include <bits/stdc++.h>
 
 using namespace std;
-int map[10][10];
-int sak[6];
 
+int arr[11][11];
+bool visited[11][11];
+int minimum = 1e9;
+int sak[6] = {0, 5, 5, 5, 5, 5};
 
-int main() {
-	std::ios::sync_with_stdio(false), cin.tie(0);
-	int tcnt = 0;
-	int tempcnt = 0;
-	int rcnt = 0;
-	for (int i = 0; i < 6; i++)
-		sak[i] = 5;
-	for (int i = 0; i < 10; i++) {
-		for (int j = 0; j < 10; j++) {
-			cin >> map[i][j];
-			if (map[i][j] == 1)
-				tempcnt++;
-		}
+void dfs(int y, int x, int tot)
+{
+	if (x >= 10)
+	{
+		dfs(y + 1, 0, tot);
+		return;
 	}
 
-		for (int i = 5; i >= 1; i--) {
-			for (int y = 0; y < 10; y++) {
-				if (y + i >10)
-					break;
-				for (int x = 0; x < 10; x++) {
-					if (x + i >10)
-						break;
-					bool flag = false;
-					for (int sy = y; sy < y + i; sy++) {
-						for (int sx = x; sx < x + i; sx++) {
-							if (map[sy][sx] == 0) {
-								flag = true;
-								break;
-							}
-						}
-						if (flag)
-							break;
-					}
-					if (flag == false) {
-						sak[i]--;
-						if (sak[i] < 0) {
-							cout << "-1\n";
-							return 0;
-						}
+	if (y == 10)
+	{
+		minimum = min(minimum, tot);
+		return;
+	}
 
-						for (int sy = y; sy < y + i; sy++) {
-							for (int sx = x; sx < x + i; sx++) {
-								map[sy][sx] = 0;
-							}
-						}
-						tcnt++;
-					}
+	if (arr[y][x] == 0)
+	{
+		dfs(y, x + 1, tot);
+		return;
+	}
 
+	for (int size = 1; size <= 5; size++)
+	{
+		if (sak[size] == 0 || y+size>10||x+size>10)
+			continue;
 
+		int tempCnt = 0;
 
-				}
+		for (int nY = y; nY < y + size; nY++)
+		{
+			for (int nX = x; nX < x + size; nX++)
+			{
+				if (arr[nY][nX] == 1)
+					tempCnt++;
 			}
 		}
 
+		if (tempCnt == size * size)
+		{
+			for (int nY = y; nY < y + size; nY++)
+			{
+				for (int nX = x; nX < x + size; nX++)
+				{
+					arr[nY][nX] = 0;
+				}
+			}
 
-	cout << tcnt << "\n";
+			sak[size]--;
+			tot++;
+			dfs(y, x + size, tot);
+			for (int nY = y; nY < y + size; nY++)
+			{
+				for (int nX = x; nX < x + size; nX++)
+				{
+					arr[nY][nX] = 1;
+				}
+			}
+			sak[size]++;
+			tot--;
+		}
+	}
+}
+
+int main()
+{
+	std::ios::sync_with_stdio(false), cin.tie(0);
+	int inp;
+	int totalOne = 0;
+	int sak[6] = {
+		0,
+	};
+	bool visited[11][11];
+
+	for (int i = 1; i <= 5; i++)
+	{
+		sak[i] = 5;
+	}
+
+	for (int i = 0; i < 10; i++)
+	{
+		for (int j = 0; j < 10; j++)
+		{
+			cin >> inp;
+			arr[i][j] = inp;
+			if (inp == 1)
+				totalOne++;
+		}
+	}
+
+	dfs(0, 0, 0);
+
+	minimum!=1e9?cout << minimum << "\n" : cout<<"-1\n";
 }
