@@ -22,6 +22,7 @@ int main() {
 					if(k!=i&&k!=j)
 						cout << num[k]<<endl;
 				}
+				return 0;
 			}
 		}
 	}
