@@ -29,7 +29,7 @@ int bfs(int x,int y) {
 	while (!q.empty()) {
 		c = q.front().x;
 		d = q.front().y;
-		
+		visited[c][d]=1;
 		for (int i = 0; i < 4; i++) {
 			n.x = c+ dx[i];
 			n.y = d + dy[i];
