@@ -12,9 +12,6 @@ int main(){
     vector<pair<int,int>>lst;
     int n,m;
     int w,v;
-
-
-
     cin>>n>>m;
 
 
