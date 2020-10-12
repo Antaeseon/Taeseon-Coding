@@ -1,47 +1,49 @@
 #include <string>
 #include <vector>
-#include <iostream>
+#include <map>
+#include <algorithm>
 
 using namespace std;
-bool visited[201];
-vector<vector<int>> node;
+map<string, int> m;
+int minimum = 1e9;
 
-void dfs(int cur, int n)
+void dfs(string cur, string target, int cnt, vector<string> words)
 {
-    visited[cur] = true;
-    for (int i = 0; i < node[cur].size(); i++)
+    if (cur == target)
     {
-        int next = node[cur][i];
+        minimum = min(minimum, cnt);
+        return;
+    }
 
-        if (!visited[next])
+    for (int i = 0; i < words.size(); i++)
+    {
+        bool flag = false;
+
+        for (int j = 0; j < cur.size(); j++)
         {
-            dfs(next, n);
+            string next = words[i];
+            if (cur[j] == next[j] && m[next] == 1)
+            {
+                m[next] = 2;
+                dfs(next, target, cnt + 1, words);
+            }
         }
     }
 }
 
-int solution(int n, vector<vector<int>> computers)
+int solution(string begin, string target, vector<string> words)
 {
     int answer = 0;
-    node.resize(computers.size());
-    for (int i = 0; i < n; i++)
+    for (int i = 0; i < words.size(); i++)
     {
-        for (int j = 0; j < n; j++)
-        {
-            if (i != j && computers[i][j])
-            {
-                node[i].push_back(j);
-            }
-        }
+        m[words[i]] = 1;
     }
-    for (int i = 0; i < n; i++)
+    if (m[begin] == 0)
     {
-        if (!visited[i])
-        {
-            dfs(i, n);
-            answer++;
-        }
+        return 0;
     }
+
+    dfs(begin, target, 0, words);
 
     return answer;
 }
